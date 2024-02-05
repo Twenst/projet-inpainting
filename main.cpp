@@ -4,6 +4,6 @@ using namespace Imagine;
 
 int main()
 {
-
+    
     return 0;
 }
