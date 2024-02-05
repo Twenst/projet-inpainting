@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/titouan/Ingé/Projet/projet-inpainting/projet-inpainting/build",
-  "command": "/usr/bin/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DSRCDIR=/home/titouan/Ingé/Projet/projet-inpainting/projet-inpainting -isystem /usr/share/Imagine++/include -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -g -std=gnu++11 -fPIC -o CMakeFiles/Inpainting.dir/main.cpp.o -c /home/titouan/Ingé/Projet/projet-inpainting/projet-inpainting/main.cpp",
-  "file": "/home/titouan/Ingé/Projet/projet-inpainting/projet-inpainting/main.cpp",
-  "output": "CMakeFiles/Inpainting.dir/main.cpp.o"
-}
-]
