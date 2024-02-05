@@ -5,5 +5,6 @@ using namespace Imagine;
 int main()
 {
     //Hello
+    //Salut
     return 0;
 }
