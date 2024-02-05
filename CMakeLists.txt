@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 find_package(Imagine REQUIRED COMPONENTS Graphics)
 
-add_executable(Inpainting
-    main.cpp)
+add_executable(Inpainting main.cpp)
+
+
 target_link_libraries(Inpainting Imagine::Graphics)
