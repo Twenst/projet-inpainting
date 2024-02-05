@@ -7,5 +7,4 @@ find_package(Imagine REQUIRED COMPONENTS Graphics)
 
 add_executable(Inpainting main.cpp)
 
-
 target_link_libraries(Inpainting Imagine::Graphics)
