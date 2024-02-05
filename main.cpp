@@ -1,4 +1,5 @@
-
+#include <Imagine/Graphics.h>
+using namespace Imagine;
 
 int main()
 {
