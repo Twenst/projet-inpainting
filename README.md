@@ -1,1 +1,3 @@
 # projet-inpainting
+
+TODO LIST
