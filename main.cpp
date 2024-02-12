@@ -1,5 +1,5 @@
-#include <Imagine/Images.h>
-using namespace Imagine;
+#include "utils.h"
+#include "class.h"
 
 int main()
 {
