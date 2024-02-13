@@ -4,5 +4,6 @@ using namespace Imagine;
 
 class Data
 {
+    Image<byte> I;
 
 };
