@@ -1,10 +1,8 @@
 #include "utils.h"
-#include "class.h"
+#include "Inpainter.h"
 
 int main()
 {
-    //Hello
-    //Salut
-    //test Felix
+
     return 0;
 }
