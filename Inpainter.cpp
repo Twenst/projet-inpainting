@@ -19,7 +19,9 @@ void Inpainter::plot_image(){
 void Inpainter::initialize_attributes(){
 }
 
-void Inpainter::find_front(){
+void Inpainter::find_front()
+{
+    
 }
 
 void Inpainter::update_priority(){
