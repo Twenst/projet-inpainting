@@ -4,8 +4,8 @@ list(APPEND CMAKE_FRAMEWORK_PATH /Library/Frameworks) #Mac, why not auto?
 set(CMAKE_CXX_STANDARD 11)
 
 find_package(Imagine REQUIRED COMPONENTS Images)
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
+#find_package(OpenCV REQUIRED)
+#include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(Inpainting main.cpp
                           utils.h utils.cpp
