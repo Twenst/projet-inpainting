@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 find_package(Imagine REQUIRED COMPONENTS Images)
 
+
 add_executable(Inpainting main.cpp
                           utils.h utils.cpp
                           Inpainter.h Inpainter.cpp)
