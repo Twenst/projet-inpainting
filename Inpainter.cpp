@@ -1,6 +1,10 @@
 #include "Inpainter.h"
 
-Inpainter::Inpainter(Img im, Img msk, int patch_size = 9){
+Inpainter::Inpainter(Img im, Img msk, int patchsize = 9)
+{
+    image = im;
+    mask = msk;
+    patch_size = patchsize;
 }
 
 Img Inpainter::inpaint(){
