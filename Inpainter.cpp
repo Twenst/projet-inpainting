@@ -1,9 +1,9 @@
 #include "Inpainter.h"
 
-Inpainter::Inpainter(Image im, Image msk, int patch_size = 9){
+Inpainter::Inpainter(Img im, Img msk, int patch_size = 9){
 }
 
-Image Inpainter::inpaint(){
+Img Inpainter::inpaint(){
 }
 
 bool Inpainter::validate_inputs(){
@@ -27,39 +27,39 @@ void Inpainter::update_confidence(){
 void Inpainter::update_data(){
 }
 
-Image Inpainter::calc_normal_matrix(){
+Img Inpainter::calc_normal_matrix(){
 }
 
-Image Inpainter::calc_gradient_matrix(){
+Img Inpainter::calc_gradient_matrix(){
 }
 
-Coords Inpainter::find_highest_priority_pixel(){
+Crds Inpainter::find_highest_priority_pixel(){
 }
 
-Image Inpainter::find_source_patch(Coords target_pixel){
+Img Inpainter::find_source_patch(Crds target_pixel){
 }
 
-void Inpainter::update_image(Coords target_pixel, Image source_patch){
+void Inpainter::update_image(Crds target_pixel, Img source_patch){
 }
 
-Image Inpainter::get_patch(Coords point){
+Img Inpainter::get_patch(Crds point){
 }
 
-double Inpainter::calc_patch_difference(Image im, Image target_patch, Image source_patch){
+double Inpainter::calc_patch_difference(Img im, Img target_patch, Img source_patch){
 }
 
 bool Inpainter::finished(){
 }
 
 
-double patch_area(Image patch){
+double patch_area(Img patch){
 }
 
-double patch_shape(Image patch){
+double patch_shape(Img patch){
 }
 
-double patch_data(Image patch, Image source){
+double patch_data(Img patch, Img source){
 }
 
-void copy_to_patch(Image dest, Image dest_patch, double data){
+void copy_to_patch(Img dest, Img dest_patch, double data){
 }
