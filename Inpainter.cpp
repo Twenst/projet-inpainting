@@ -21,7 +21,15 @@ void Inpainter::initialize_attributes(){
 
 void Inpainter::find_front()
 {
-    
+    int w = image.width();
+    int h = image.height();
+
+    Crds vois[4] = {}
+
+    for (int i = 0; i < w; i++)
+    {
+        for (int j = 0;)
+    }
 }
 
 void Inpainter::update_priority(){
