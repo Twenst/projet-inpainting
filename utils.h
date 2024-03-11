@@ -1,5 +1,6 @@
 #pragma once
-#include <Imagine/Images.h>.
+
+#include <Imagine/Images.h>
 using namespace Imagine;
 
 
