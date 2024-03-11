@@ -1,8 +1,7 @@
 #pragma once
 #include "utils.h"
 
-typedef Image<byte,3> Img; // il fallait préciser le taille de nos pixels, byte = [0,255], 3 pour 3 composantes
-// pas sûr qu'il faille mettre 3 et pas 2, à demander
+typedef Image<Color,2> Img;
 typedef Coords<2> Crds; // il fallait préciser la dimension des coords
 
 
