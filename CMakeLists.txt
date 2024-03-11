@@ -11,3 +11,4 @@ add_executable(Inpainting main.cpp
                           Inpainter.h Inpainter.cpp)
 
 target_link_libraries(Inpainting Imagine::Images)
+
