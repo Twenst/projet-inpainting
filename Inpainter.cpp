@@ -54,7 +54,8 @@ Img Inpainter::find_source_patch(Crds target_pixel){
 
     for (int i=0;i<= height - patch_size;i++){
         for (int j=4;j<width - patch_size; j++){
-            //Img source_patch=
+            Img source_patch=working_image.getSubImage(i,j, patch_size,patch_size);
+
 
         }
     }
