@@ -28,7 +28,7 @@ public:
     Img calc_normal_matrix(); // calcul de la normale ?
     Img calc_gradient_matrix(); // calcul du gradient
     Crds find_highest_priority_pixel(); //cherche pixel plus grande prioeiré
-    Img find_source_patch(Crds target_pixel); //cerche patch idéal
+    Img find_source_patch(Crds target_pixel); //cherche patch idéal
     void update_image(Crds target_pixel, Img source_patch); //copie coller du patch
     Img get_patch(Crds point); //récupère l'image à partir du patch
     double calc_patch_difference(Img im, Img target_patch, Img source_patch);
