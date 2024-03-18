@@ -22,16 +22,51 @@ void Inpainter::plot_image(){
 void Inpainter::initialize_attributes(){
 }
 
+bool is_within_bounds(Crds c, int w, int h)
+{
+    return (0 <= c.x() < w)&&(0 <= c.y() < h);
+}
+
 void Inpainter::find_front()
 {
     int w = image.width();
     int h = image.height();
 
-    Crds vois[4] = {}
+    Crds g(-1,0); Crds d(1,0); Crds h(-1,0); Crds b(1,0);
+    Crds vois[4] = {g,d,h,b};
 
+    // on réinitialise la frontière d'avant
     for (int i = 0; i < w; i++)
     {
-        for (int j = 0;)
+        for (int j = 0; j < h; j++)
+        {
+            front.data()[i][j] = BLACK;
+        }
+    }
+
+    // on m-a-j la frontière
+    for (int i = 0; i < w; i++)
+    {
+        for (int j = 0; j < h; j++)
+        {
+            Crds current(i,j);
+            bool has_mask_neighbor = false;
+            bool has_non_mask_neighbor = false;
+            for (int k = 0; k < 4; k++)
+            {
+                Crds v = current + vois[k];
+                if (is_within_bounds(v,w,h))
+                {
+                    if (mask.data()[v.x()][v.y()] != BLACK)
+                        has_mask_neighbor = true;
+                    if (mask.data()[v.x()][v.y()] != WHITE)
+                        has_non_mask_neighbor = true;
+                }
+            }
+
+            if (has_mask_neighbor && has_non_mask_neighbor)
+                front.data()[i][j] = WHITE;
+        }
     }
 }
 
