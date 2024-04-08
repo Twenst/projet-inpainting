@@ -4,6 +4,12 @@
 #include <limits>
 #include <exception>
 
+// dans le mask: noir = c'est le mask, blanc = c'est pas le mask 
+
+// pour accéder aux éléments de type Image<T,d>, il faut utiliser .data(),
+// il faudra tester si l'on accède à ces éléments en faisant 
+// comme si c'était une matrice ou comme si c'était un tableau 
+
 Inpainter::Inpainter(Img im, Img msk, int patchsize)
 {
     image = im;
@@ -64,12 +70,22 @@ void Inpainter::initialize_attributes()
 {
     int w_img = image.width(), h_img = image.height();
 
-    // Initialisation de la confiance
+    
     for (int i = 0; i < w_img; i++)
     {
         for (int j = 0; j <h_img; j++)
         {
+            // Initialisation de confidence
             confidence.data()[i][j] = 1 - mask.data()[i][j];
+
+            // Initialisation de data
+            data.data()[i][j] = 0;
+
+            // Initialisation de working_image
+            working_image.data()[i][j] = image.data()[i][j];
+
+            // Initialisation de working_mask
+            working_mask.data()[i][j] = mask.data()[i][j];
         }
     }
 }
