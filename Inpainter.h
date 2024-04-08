@@ -4,7 +4,6 @@
 typedef Image<Color,2> Img;
 typedef Coords<2> Crds; // il fallait préciser la dimension des coords
 
-
 class Inpainter{
     Img image;
     Img mask;
