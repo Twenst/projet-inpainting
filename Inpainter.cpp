@@ -2,24 +2,92 @@
 #include <iostream>
 #include <cmath>
 #include <limits>
+#include <exception>
+
+// dans le mask: noir = c'est le mask, blanc = c'est pas le mask 
+
+// pour accéder aux éléments de type Image<T,d>, il faut utiliser .data(),
+// il faudra tester si l'on accède à ces éléments en faisant 
+// comme si c'était une matrice ou comme si c'était un tableau 
 
 Inpainter::Inpainter(Img im, Img msk, int patchsize)
 {
     image = im;
     mask = msk;
     patch_size = patchsize;
+
+    // Paramètres non initialisés
+    int w = image.width();
+    int h = image.height();
+    working_image = Img(w,h);
+    working_mask = Img(w,h);
+    front = Img(w,h);
+    confidence = Img(w,h);
+    data = Img(w,h);
+    priority = Img(w,h);
 }
 
-Img Inpainter::inpaint(){
+Img Inpainter::inpaint()
+{
+    // Applique le procédé d'inpainting à l'image
+    validate_inputs();
+    initialize_attributes();
+
+    bool keep_going = true;
+    while (keep_going)
+    {
+        find_front();
+        update_priority();
+
+        Crds target_pixel = find_highest_priority_pixel();
+        Img source_patch = find_source_patch(target_pixel);
+
+        update_image(target_pixel, source_patch);
+
+        keep_going = finished();
+    }
+    
+    return working_image;
 }
 
-bool Inpainter::validate_inputs(){
+bool Inpainter::validate_inputs()
+{
+    int w_img = image.width(), h_img = image.height();
+    int w_msk = mask.width(), h_msk = mask.height();
+
+    if (w_img != w_msk or h_img != h_msk)
+    {
+        throw std::invalid_argument("Pas les mêmes tailles d'Image et de Mask!"); // /!\ AJOUTER UN TRY QUI CATCH L'EXCEPTION DANS LE MAIN
+    }
 }
 
-void Inpainter::plot_image(){
+void Inpainter::plot_image()
+{
+    //TODO
 }
 
-void Inpainter::initialize_attributes(){
+void Inpainter::initialize_attributes()
+{
+    int w_img = image.width(), h_img = image.height();
+
+    
+    for (int i = 0; i < w_img; i++)
+    {
+        for (int j = 0; j <h_img; j++)
+        {
+            // Initialisation de confidence
+            confidence.data()[i][j] = 1 - mask.data()[i][j];
+
+            // Initialisation de data
+            data.data()[i][j] = 0;
+
+            // Initialisation de working_image
+            working_image.data()[i][j] = image.data()[i][j];
+
+            // Initialisation de working_mask
+            working_mask.data()[i][j] = mask.data()[i][j];
+        }
+    }
 }
 
 bool is_within_bounds(Crds c, int w, int h)
@@ -31,6 +99,7 @@ void Inpainter::find_front()
 {
     int w = image.width();
     int h = image.height();
+    assert(w == front.width() and h == front.height());
 
     Crds g(-1,0); Crds d(1,0); Crds h(-1,0); Crds b(1,0);
     Crds vois[4] = {g,d,h,b};

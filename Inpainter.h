@@ -2,13 +2,13 @@
 #include "utils.h"
 
 typedef Image<Color,2> Img;
-typedef Coords<2> Crds; // il fallait préciser la dimension des coords
-
+typedef Coords<2> Crds; 
 
 class Inpainter{
     Img image;
     Img mask;
     int patch_size;
+    // peut être changer le type de ces données pour plutot mettre qqchose du style Image<byte,2>
     Img working_image;
     Img working_mask; //
     Img front; //stockage frontière
