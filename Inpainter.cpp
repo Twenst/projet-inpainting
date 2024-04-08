@@ -95,13 +95,35 @@ Img Inpainter::find_source_patch(Crds target_pixel){
     Img best_match;
     double best_match_diff = std::numeric_limits<double>::infinity();
 
-    for (int i=0;i<= height - patch_size;i++){
-        for (int j=4;j<width - patch_size; j++){
-            Img source_patch=working_image.getSubImage(i,j, patch_size,patch_size);
+    for (int i=0;i<= width - patch_size;i++){
+        for (int j=4;j<height - patch_size; j++){
+            Img mask_patch = working_mask.getSubImage(i,j, patch_size,patch_size);
 
+            bool not_empty = true ;
 
+            // On regarde si le patch comporte des points dont on ne connaît pas la valeur
+            for (int a=0; a<=patch_size;a++){
+                for (int b=0; b<=patch_size;b++){
+                    if (mask_patch.data()[a][b] == WHITE){
+                        not_empty = false ;
+                        break;
+                    }
+
+                }
+
+            }
+
+            if (not_empty){
+                Img source_patch=working_image.getSubImage(i,j, patch_size,patch_size);
+                double diff = calc_patch_difference(working_image, target_patch, source_patch);
+                if (diff < best_match_diff){
+                    best_match=source_patch;
+                    best_match_diff= diff;
+                }
+            }
         }
     }
+    return best_match;
 
 }
 
@@ -109,6 +131,17 @@ void Inpainter::update_image(Crds target_pixel, Img source_patch){
 }
 
 Img Inpainter::get_patch(Crds point){
+    int half_patch_size= (patch_size-1)/2;
+    const int width=image.width(); //dans le code python il fait sur working image mais en vrai c'est pareil
+    const int height=image.height();
+    //on veut renvoyer le patch centré en point mais getSubImage prend en argument le pixel en haut à gauche
+    assert((point.x() - half_patch_size) > 0 && (point.y() - half_patch_size) > 0 &&
+               (point.x() + half_patch_size) < width && (point.y() + half_patch_size) < height);
+    int coord_x = point.x() - half_patch_size;
+    int coord_y = point.y() - half_patch_size;
+
+    Img patch= working_image.getSubImage(coord_x,coord_y,patch_size,patch_size);
+    return patch;
 }
 
 double Inpainter::calc_patch_difference(Img im, Img target_patch, Img source_patch){
