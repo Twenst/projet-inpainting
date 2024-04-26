@@ -50,7 +50,15 @@ Img Inpainter::inpaint()
     return working_image;
 }
 
-bool Inpainter::validate_inputs()
+bool Inpainter::validate_inputs(int x) // x sert juste à faire un overload, dans le code python cette fonction est un void
+{
+    int w_img = image.width(), h_img = image.height();
+    int w_msk = mask.width(), h_msk = mask.height();
+
+    return (w_img != w_msk or h_img != h_msk) ? false : true;
+}
+
+void Inpainter::validate_inputs()
 {
     int w_img = image.width(), h_img = image.height();
     int w_msk = mask.width(), h_msk = mask.height();
@@ -139,16 +147,60 @@ void Inpainter::find_front()
     }
 }
 
-void Inpainter::update_priority(){
+void Inpainter::update_priority()
+{
+    update_confidence();
+    update_data();
+
+    int w = image.width();
+    int h = image.height();
+
+    for (int i = 0; i < w; i++)
+    {
+        for (int j = 0; j < h; j++)
+        {
+            priority.data()[i][j] = confidence.data()[i][j] * data.data()[i][j] * front.data()[i][j];
+        }
+    }
 }
 
-void Inpainter::update_confidence(){
+void Inpainter::update_confidence()
+{
+    Img new_conf = confidence.clone();
+
+    int w = image.width();
+    int h = image.height();
+
+    for (int i = 0; i < w; i++)
+    {
+        for (int j = 0; j < h; j++)
+        {
+            if (front.data()[i][j] == WHITE)
+            {
+                Img patch = get_patch(Crds(i,j));
+                // new_conf.data()[i][j] = 
+                // patch_data(patch, confidence) 
+                // IL Y A UN SOUCIS AVEC LES FONCTIONS PATCH_*
+            }
+        }
+    }
 }
 
-void Inpainter::update_data(){
+void Inpainter::update_data()
+{
+
 }
 
-Img Inpainter::calc_normal_matrix(){
+Img Inpainter::calc_normal_matrix()
+{
+    float x_kernel[3][3] = { {0.25, 0., -0.25},
+                             {.5, 0., -0.5},
+                             {0.25, 0., -0.25}
+                           };
+    float y_kernel[3][3] = { {-0.25, -0.5, -0.25},
+                             {0., 0., 0.},
+                             {0.25, 0.5, 0.25}
+                           };
 }
 
 Img Inpainter::calc_gradient_matrix(){
@@ -157,7 +209,8 @@ Img Inpainter::calc_gradient_matrix(){
 Crds Inpainter::find_highest_priority_pixel(){
 }
 
-Img Inpainter::find_source_patch(Crds target_pixel){
+Img Inpainter::find_source_patch(Crds target_pixel)
+{
     Img target_patch=get_patch(target_pixel);
     const int width=image.width();
     const int height=image.height();
@@ -253,10 +306,14 @@ bool Inpainter::finished(){
 double patch_area(Img patch){
 }
 
-double patch_shape(Img patch){
+Crds patch_shape(Img patch)
+{
+    return Crds(patch.width(),patch.height());
 }
 
-double patch_data(Img patch, Img source){
+double patch_data(Img patch, Img source)
+{
+
 }
 
 void copy_to_patch(Img dest, Img dest_patch, double data){

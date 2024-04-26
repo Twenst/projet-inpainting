@@ -18,7 +18,8 @@ class Inpainter{
 public:
     Inpainter(Img im, Img msk, int patch_size = 9); //commentaires
     Img inpaint(); //démarre processus
-    bool validate_inputs(); //cheque taille des éléments
+    bool validate_inputs(int x);
+    void validate_inputs(); //cheque taille des éléments
     void plot_image(); //gère affichage
     void initialize_attributes(); //initialiser attribus,( confiance...)
     void find_front(); //recherche de la frontière à partir du masque
@@ -37,6 +38,6 @@ public:
 };
 
 double patch_area(Img patch);
-double patch_shape(Img patch);
+Crds patch_shape(Img patch);
 double patch_data(Img patch, Img source);
 void copy_to_patch(Img dest, Img dest_patch, double data);
