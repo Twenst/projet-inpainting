@@ -250,6 +250,7 @@ Img Inpainter::find_source_patch(Crds target_pixel)
 
 }
 
+//le .data donne accès au tableau 1d de ce qu'il y a dans les pixels mais il faut pas l'utiliser (c'est surtout utilisé pour faire des boucles 1d au lieu de 2d)
 void Inpainter::update_image(Crds target_pixel, Img source_patch){
     //on récupère le coin en haut à gauche du patch que l'on veut remplir
     int half_patch_size= (patch_size-1)/2;
@@ -260,7 +261,7 @@ void Inpainter::update_image(Crds target_pixel, Img source_patch){
            (target_pixel.x() + half_patch_size) < width && (target_pixel.y() + half_patch_size) < height);
     int coord_x = target_pixel.x() - half_patch_size;
     int coord_y = target_pixel.y() - half_patch_size;
-    int confidence_target_pixel = confidence.data()[coord_x][coord_y]; //valeur de confiance du pixel autour duquel on remplace
+    int confidence_target_pixel = confidence(coord_x,coord_y); //valeur de confiance du pixel autour duquel on remplace
 
 
     //on ne va modifier que les pixels qui sont blancs sur working_mask
