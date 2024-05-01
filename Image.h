@@ -6,15 +6,15 @@ using namespace Imagine;
 
 typedef Image<Pixel> ImgPixel;
 typedef Image<bool> ImgBool;
+typedef Image<byte> ImgByte;
 
-// On utilise le type Imagine::Image<AlphaColor>
 /* Methode de la classe
- * I.weight()
+ * I.width()
  * I.height()
  * Pour accéder à un pixel : I(x,y)
  * Pour modifier un pixel : I(x,y)=p;
  * Faire une copie : I.copy();
 */
 
-void affiche(Imagine::Image<pixel> I, int coeff);
-bool getImage(ImgPixel& I, std::string imageLink, int argc, char* argv[]);
+void display(Imagine::Image<pixel> I, int coeff);                               // Affiche l'image
+bool getImage(ImgPixel& I, std::string imageLink, int argc, char* argv[]);      // Obtention de l'image à partir d'un fichier
