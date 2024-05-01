@@ -16,5 +16,5 @@ typedef Image<byte> ImgByte;
  * Faire une copie : I.copy();
 */
 
-void display(Imagine::Image<pixel> I, int coeff);                               // Affiche l'image
+void display(ImgPixel Img, int coeff);                               // Affiche l'image
 bool getImage(ImgPixel& I, std::string imageLink, int argc, char* argv[]);      // Obtention de l'image à partir d'un fichier

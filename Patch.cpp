@@ -17,6 +17,29 @@ void Patch::setSize(int s){
     size=s;
 }
 
+void Patch::updateConfidence(ImgPixel Img){
+    int x = center.getX();
+    int y = center.getY();
+    int n = size;
+    double c = 0;
+    for (int i=0;i<2*n+1;i++){
+        for (int j=0;j<2*n+1;j++){
+            if (Img(x-n+i,y-n+j).getFilled()){
+                c += Img(x-n+i,y-n+j).getConfidence();
+            }
+        }
+    }
+
+    c = double(c/((2*n+1)*(2*n+1)));
+
+    for (int i=0;i<2*n+1;i++){
+        for (int j=0;j<2*n+1;j++){
+            if (!Img(x-n+i,y-n+j).getFilled()){
+                Img(x-n+i,y-n+j).setConfidence(c);
+            }
+        }
+    }
+}
 
 int distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvoie la distance induite par la norme 2 sur les tampons
     int n = psi_p.getSize();
