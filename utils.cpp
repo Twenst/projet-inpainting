@@ -15,7 +15,7 @@ bool selectZone(int& x1, int& y1, int& x2, int& y2)
 
 void toImageByte(ImgPixel Img, ImgByte Ib)
 {
-
+    
 }
 
 void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
