@@ -1,5 +1,15 @@
 #include "utils.h"
 
+int min(int a, int b)
+{
+    return (a>b) ? b : a;
+}
+
+int max(int a, int b)
+{
+    return (a>b) ? a : b;
+}
+
 double absf(double f)
 {
     return (f > 0) ? f : -f;

@@ -5,6 +5,8 @@
 #include "Front.h"
 
 
+int min(int a, int b);
+int max(int a, int b);
 bool selectZone(int& x1,int& y1,int& x2,int& y2);           // Permet de sélectionner un rectangle sur l'image
 void toImageByte(ImgPixel Img, ImgByte Ib);
 void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB);    // Calcule le gradient et le vecteur normal au pixel p

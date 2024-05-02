@@ -2,6 +2,8 @@
 #include <cmath>
 using namespace std;
 
+// Les pixels de la frontiere sont REMPLIS ie. getFilled est vrai, sinon c'est l'intérieur de la frontiere
+
 Front::Front()
 {
 }
@@ -11,14 +13,13 @@ Front::Front(list<Pixel> pxs)
     pixels=pxs;
 }
 
-void Front::updateFront(const ImgPixel& Img, Pixel p1, Pixel p2)
+void Front::defineFront(const ImgPixel& Img, Pixel p1, Pixel p2)
 {
-    
+
 }
 
 void Front::updateFront(const ImgPixel& Img, list<Pixel> list_pixels)
 {
-    // mettre les pixels intérieurs en pas rempli, le reste en rempli
     int w = Img.width(), h = Img.height();
 
     list<Pixel>::iterator iter = pixels.end();
@@ -73,3 +74,23 @@ void Front::display()
         drawPoint(i->getX(), i->getY(), BLACK);
     }
 }
+
+int min(int a, int b)
+{
+    
+}
+
+void update_list(std::list<Pixel>& l, int x1, int y1, int x2, int y2)
+{
+    // Ajouter les points entre (x1,y1) et (x2,y1), entre (x2,y1) et (x2,y2), 
+    // entre (x2,y2) et (x1,y2) et entre (x1,y2) et (x1,y1).
+}
+
+void update_list(std::list<Pixel>& l, Pixel p1, Pixel p2)
+{
+    int x1 = p1.getX(), y1 = p1.getY();
+    int x2 = p2.getX(), y2 = p2.getY();
+
+    update_list(l,x1,y1,x2,y2);
+}
+
