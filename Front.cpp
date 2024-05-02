@@ -11,8 +11,14 @@ Front::Front(list<Pixel> pxs)
     pixels=pxs;
 }
 
-void Front::defineFront(const ImgPixel& Img, list<Pixel> list_pixels)
+void Front::updateFront(const ImgPixel& Img, Pixel p1, Pixel p2)
 {
+    
+}
+
+void Front::updateFront(const ImgPixel& Img, list<Pixel> list_pixels)
+{
+    // mettre les pixels intérieurs en pas rempli, le reste en rempli
     int w = Img.width(), h = Img.height();
 
     list<Pixel>::iterator iter = pixels.end();
@@ -20,11 +26,6 @@ void Front::defineFront(const ImgPixel& Img, list<Pixel> list_pixels)
     for (list<Pixel>::iterator i = list_pixels.begin(); i != list_pixels.end(); ++i)
         if (i->getFilled())
             pixels.insert(iter,*i);
-}
-
-void Front::updateFront(const ImgPixel& Img, list<Pixel> list_pixels)
-{
-    // demander à Felix la diff entre define et update
 }
 
 void Front::clearSides(const ImgPixel& Img) //enleve les pixels de la frontiere qui sont sur le bord de l'image
