@@ -57,23 +57,15 @@ void Front::defineFront(const ImgPixel& Img, std::list<Pixel> front_pixels)
             pixels.insert(iter,*i);
 }
 
-/*void Front::updateFront(const ImgPixel& Img, list<Pixel> patch_pixels) 
-// on doit m-a-j la frontiere en sachant qu'on vient d'ajouter le patch dont les bords sont dans patch_pixels 
+void Front::updateFront(const ImgPixel& Img, Patch p)
+// maj de la frontiere apres ajout du patch défini par p1 et p2
 {
-    for (list<Pixel>::iterator i = pixels.begin(); i != pixels.end(); ++i)
-    {
+    p.set_filled(Img);
+    Pixel centre = p.getCenter(); int n = p.getSize();
+    int x = centre.getX(), y = centre.getY();
 
-    }
+    Pixel p1(x-n,y-n); Pixel p2(x+n,y+n);
 
-    list<Pixel>::iterator iter = pixels.end();
-
-    for (list<Pixel>::iterator i = patch_pixels.begin(); i != patch_pixels.end(); ++i)
-        if (i->getFilled())
-            pixels.insert(iter,*i); 
-}*/
-
-void Front::updateFront(const ImgPixel& Img, Pixel p1, Pixel p2) // maj de la frontiere apres ajout du patch défini par p1 et p2
-{
     list<Pixel> l_patch;
     update_list(l_patch,p1,p2);
 
@@ -127,7 +119,18 @@ Pixel Front::pixelMaxPriority() // on peut pas mettre cette fonction en const à
 
 void Front::updateData(ImgPixel& Img)
 {
+    int w = Img.width(), h = Img.height();
+    
+    double grad[2]; double normal[2];
+    ImgByte Ibyte;
+    toImageByte(Img,Ibyte);
 
+    for (list<Pixel>::iterator i = pixels.begin(); i != pixels.end(); ++i)
+    {
+        computeGradientNormal(grad,normal,Img,*i,Ibyte);
+        Img(i->getX(),i->getY()).setData(computeData(grad, normal)); // cf formule
+        i->setData(computeData(grad, normal));
+    }
 }
 
 bool Front::isEmpty()

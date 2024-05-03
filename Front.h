@@ -12,8 +12,7 @@ public:
     Front(std::list<Pixel> pxs);
     void defineFront(const ImgPixel& Img, Pixel p1, Pixel p2);              // Ajoute le rectange défini par p1 et p2 à la frontière
     void defineFront(const ImgPixel& Img, std::list<Pixel> front_pixels);   // Définit la frontière à partir d'une liste de pixels (les pixels non-remplis sont exclus de la frontière)
-    //A REFAIRE  EN CHERCHANT LES EXTREMITES ET EN APPELANT LA FONCT D'EN DESSOUS//void updateFront(const ImgPixel& Img, std::list<Pixel> patch_pixels);   // Met à jour la frontière à partir d'une liste de pixels (les pixels non-remplis sont exclus de la frontière)
-    void updateFront(const ImgPixel& Img, Pixel p1, Pixel p2);              // Met à jour la frontière apres avoir appliqué le patch défini par les points p1 et p2
+    void updateFront(const ImgPixel& Img, Patch p);                         // Met à jour la frontière apres avoir appliqué le patch défini par les points p1 et p2
     void clearSides(const ImgPixel& Img);                                   // Retire la bordure de l'image de la frontière
     Pixel pixelMaxPriority() ;                                              // Parcourt la frontière pour connaître le pixel de priorité maximale
     void updateData(ImgPixel& Img);                                         // Met à jour les termes Data des pixels de la frontière

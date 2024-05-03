@@ -115,3 +115,17 @@ int argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
     }
     return minDist;
 }
+
+void Patch::set_filled(ImgPixel Img)
+{
+    int w = Img.width(), h = Img.height();
+    Pixel x0(0,0); Pixel xf(w-1,h-1);
+
+    for (int i = 0; i < 2*size+1; i++)
+    {
+        for (int j = 0; j < 2*size+1 ;j++)
+        {
+            Img(center.getX()-size+i, center.getY()-size+j).setFilled(true);
+        }
+    }
+}

@@ -2,7 +2,7 @@
 #include <cmath>
 using namespace std;
 
-void affiche(ImgPixel Img, int coeff){
+void display(ImgPixel Img, int coeff){
     int w=Img.width(), h=Img.height();
     Imagine::Image<Color> Img0(w,h);
     for (int i=0;i<w;i++){
