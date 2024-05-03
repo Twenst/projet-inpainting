@@ -38,5 +38,5 @@ double computeData(double gradient[2],double normal[2]) // cd code
     double d = gradient[0]*normal[0];
     d += gradient[1]*normal[1];
 
-    return double(absf(d)/255);
+    return double(absf(d)/alpha);
 }
