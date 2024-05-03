@@ -121,9 +121,15 @@ void Front::updateData(ImgPixel& Img)
 {
     int w = Img.width(), h = Img.height();
     
+    double grad[2]; double normal[2];
+    ImgByte Ibyte;
+    toImageByte(Img,Ibyte);
+
     for (list<Pixel>::iterator i = pixels.begin(); i != pixels.end(); ++i)
     {
-        
+        computeGradientNormal(grad,normal,Img,*i,Ibyte);
+        Img(i->getX(),i->getY()).setData(computeData(grad, normal)); // cf formule
+        i->setData(computeData(grad, normal));
     }
 }
 
