@@ -119,7 +119,12 @@ Pixel Front::pixelMaxPriority() // on peut pas mettre cette fonction en const à
 
 void Front::updateData(ImgPixel& Img)
 {
-    // A FAIRE
+    int w = Img.width(), h = Img.height();
+    
+    for (list<Pixel>::iterator i = pixels.begin(); i != pixels.end(); ++i)
+    {
+        
+    }
 }
 
 bool Front::isEmpty()
