@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
 {
     int zoom=1;
     ImgPixel Img;
-    getImage(Img,srcPath("pictures/dog.png"),argc,argv);
+    getImage(Img,srcPath("pictures/baby.png"),argc,argv);
     openWindow(Img.width()*zoom, Img.height()*zoom);;
-    display(Img,zoom);
+    //display(Img,zoom);
 
     Front f;
     Inpainter Inpt(Img,f);
