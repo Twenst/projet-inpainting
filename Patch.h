@@ -12,7 +12,7 @@ class Patch {
 public :
     Patch();
     Patch(Pixel c,int s);
-    Patch(const Patch & ptch);
+    //Patch(const Patch & ptch);
     Pixel getCenter() const ;
     int getSize() const ;
     void setCenter(Pixel c);
