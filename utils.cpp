@@ -34,6 +34,20 @@ void toImageByte(ImgPixel Img, ImgByte Ib)
     }
 }
 
+void computeGradientNormalv2(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
+{
+    int w = Img.width(), h = Img.height();
+    int x = p.getX(), y = p.getY();
+
+    FVector<byte,2> nrml = Imagine::normal(ImgB,Coords<2>(p.getX(),p.getY()));
+    FVector<byte,2> grdt = Imagine::gradient(ImgB,Coords<2>(p.getX(),p.getY()));
+
+    normal[0] = nrml.x();
+    normal[1] = nrml.y();
+    gradient[0] = grdt.x();
+    gradient[1] = grdt.y();
+}
+
 void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
 {
     int w = Img.width(), h = Img.height();
