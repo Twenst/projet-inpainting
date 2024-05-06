@@ -10,6 +10,8 @@ class Patch {
     int size;      // taille du patch
 
 public :
+    Patch();
+    Patch(Pixel c,int s);
     Pixel getCenter() const ;
     int getSize() const ;
     void setCenter(Pixel c);

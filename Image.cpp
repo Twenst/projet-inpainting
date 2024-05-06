@@ -34,3 +34,4 @@ bool getImage(ImgPixel& Img,std::string imageLink, int argc, char* argv[]){    /
     }
     return true;
 }
+

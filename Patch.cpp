@@ -1,6 +1,15 @@
 #include "Patch.h"
 #include <queue>
 
+
+Patch::Patch(){
+}
+
+Patch::Patch(Pixel c,int s){
+    center=c;
+    size=s;
+}
+
 Pixel Patch::getCenter() const{
     return center;
 }

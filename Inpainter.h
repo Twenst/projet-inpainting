@@ -6,8 +6,9 @@
 #include "utils.h"
 
 class Inpainter {
-    ImgPixel Img;
+    ImgPixel image;
     Front frontier;
 public:
-
+    Inpainter();
+    Inpainter(ImgPixel Img, Front fr);
 };
