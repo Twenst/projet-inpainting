@@ -10,6 +10,7 @@ class Front
 public:
     Front();
     Front(std::list<Pixel> pxs);
+    Front(const Front & frt);
     void defineFront(const ImgPixel& Img, Pixel p1, Pixel p2);              // Ajoute le rectange défini par p1 et p2 à la frontière
     void defineFront(const ImgPixel& Img, std::list<Pixel> front_pixels);   // Définit la frontière à partir d'une liste de pixels (les pixels non-remplis sont exclus de la frontière)
     void updateFront(const ImgPixel& Img, Patch p);                         // Met à jour la frontière apres avoir appliqué le patch défini par les points p1 et p2

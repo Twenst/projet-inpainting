@@ -36,6 +36,11 @@ Front::Front(list<Pixel> pxs)
     pixels=pxs;
 }
 
+Front::Front(const Front & frt)
+{
+    pixels = frt.pixels;
+}
+
 void Front::defineFront(const ImgPixel& Img, Pixel p1, Pixel p2) // ajoute le rectange défini par p1 et p2
 {
     list<Pixel> l_front;

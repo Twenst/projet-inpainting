@@ -4,7 +4,8 @@ using namespace Imagine;
 
 const int alpha=255;
 
-class Pixel {
+class Pixel 
+{
     int x,y;        // position
     Color col;      // Color
     double c,d;     // Confidence and Data term
