@@ -28,6 +28,7 @@ void algo(Inpainter Inpt)
     while(selectZone(x1,y1,x2,y2))
     {
         Inpt.frontier.defineFront(Inpt.image,Pixel(x1,y1), Pixel(x2,y2));
+        display(Inpt.image,1);
     }
     Inpt.frontier.clearSides(Inpt.image);
 
