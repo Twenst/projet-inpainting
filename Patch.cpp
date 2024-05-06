@@ -10,11 +10,11 @@ Patch::Patch(Pixel c,int s){
     size=s;
 }
 
-Patch::Patch(const Patch & ptch)
+/* Patch::Patch(const Patch & ptch)
 {
     center = ptch.center;
     size = ptch.size;
-}
+} */
 
 Pixel Patch::getCenter() const{
     return center;

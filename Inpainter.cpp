@@ -1,4 +1,3 @@
-#pragma once
 #include "Inpainter.h"
 
 Inpainter::Inpainter(){

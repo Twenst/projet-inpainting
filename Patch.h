@@ -1,7 +1,6 @@
 #pragma once
 #include "Pixel.h"
 #include "Image.h"
-#include "utils.h"
 #include <Imagine/Graphics.h>
 using namespace Imagine;
 

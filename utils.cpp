@@ -50,7 +50,7 @@ Image<Color> ImgPixelToImgColor(ImgPixel Img)
     return I;
 }
 
-void computeGradientNormalv2(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
+void computeGradientNormalUsingByte(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
 {
     int w = Img.width(), h = Img.height();
     int x = p.getX(), y = p.getY();
@@ -64,7 +64,7 @@ void computeGradientNormalv2(double gradient[2], double normal[2], ImgPixel Img,
     gradient[1] = grdt.y();
 }
 
-void computeGradientNormalv3(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
+/* void computeGradientNormalUsingColor(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
 {
     int w = Img.width(), h = Img.height();
     int x = p.getX(), y = p.getY();
@@ -78,7 +78,7 @@ void computeGradientNormalv3(double gradient[2], double normal[2], ImgPixel Img,
     normal[1] = (nrml.y().r() + nrml.y().g() + nrml.y().b())/3.;
     gradient[0] = (grdt.x().r() + grdt.x().g() + grdt.x().b())/3.;
     gradient[1] = (grdt.y().r() + grdt.y().g() + grdt.y().b())/3.;
-}
+} */
 
 void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, Pixel p, ImgByte ImgB)
 {
