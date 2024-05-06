@@ -7,7 +7,9 @@ void display(ImgPixel Img, int coeff){
     Imagine::Image<Color> Img0(w,h);
     for (int i=0;i<w;i++){
         for(int j=0; j<h; j++){
-            Img0(i,j)=Img(i,j).getColor();
+            if (Img(i,j).getFilled())
+                Img0(i,j)=Img(i,j).getColor();
+            else Img0(i,j) = RED;
         }
     }
 
