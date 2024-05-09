@@ -1,6 +1,9 @@
 #include "Patch.h"
 #include <queue>
 
+#include <iostream>
+using namespace std;
+
 Patch::Patch(){
 }
 
@@ -31,29 +34,30 @@ void Patch::setSize(int s){
     size=s;
 }
 
-void Patch::updateConfidence(ImgPixel Img){
-    int x = center.getX();
-    int y = center.getY();
-    int n = size;
-    double c = 0;
-    for (int i=0;i<2*n+1;i++){
-        for (int j=0;j<2*n+1;j++){
-            if (Img(x-n+i,y-n+j).getFilled()){
-                c += Img(x-n+i,y-n+j).getConfidence();
-            }
-        }
-    }
+//void Patch::updateConfidence(ImgPixel& Img){
+//    int x = center.getX();
+//    int y = center.getY();
+//    int n = size;
+//    double c = 0;
+//    for (int i=0;i<2*n+1;i++){
+//        for (int j=0;j<2*n+1;j++){
+//            if (Img(x-n+i,y-n+j).getFilled()){
+//                c += Img(x-n+i,y-n+j).getConfidence();
+//            }
+//        }
+//    }
 
-    c = double(c/((2*n+1)*(2*n+1)));
+//    c = double(c/((2*n+1)*(2*n+1)));
 
-    for (int i=0;i<2*n+1;i++){
-        for (int j=0;j<2*n+1;j++){
-            if (!Img(x-n+i,y-n+j).getFilled()){
-                Img(x-n+i,y-n+j).setConfidence(c);
-            }
-        }
-    }
-}
+//    for (int i=0;i<2*n+1;i++){
+//        for (int j=0;j<2*n+1;j++){
+//            if (!Img(x-n+i,y-n+j).getFilled()){
+//                Img(x-n+i,y-n+j).setConfidence(c);
+//            }
+//        }
+//    }
+//}
+
 
 int distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvoie la distance induite par la norme 2 sur les tampons
     int n = psi_p.getSize();
@@ -109,6 +113,9 @@ int argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
     Pixel q;
     int minDist = distPatch(ListQX.front(),psi_p,I);
     Pixel Q_min = ListQX.front();
+
+    //cout << "Q_min_x = " << Q_min.getX() << " ||   ";
+
     ListQX.pop();
 
     int initSize = ListQX.size();
@@ -123,23 +130,28 @@ int argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
             minDist = dist;
             if(dist==0){    //cas matching optimal
                 std::cout<<"Perfect match!"<<std::endl;
+                psi_q.setCenter(Q_min);
                 return 0;
             }
         }
     }
+    psi_q.setCenter(Q_min);
+    //cout << "Q_min_x = " << Q_min.getX() << " ||   ";
     return minDist;
 }
 
-void Patch::set_filled(ImgPixel Img)
+void Patch::set_filled(ImgPixel& Img)
 {
-    int w = Img.width(), h = Img.height();
-    Pixel x0(0,0); Pixel xf(w-1,h-1);
+    //int w = Img.width(), h = Img.height();
+    //Pixel x0(0,0); Pixel xf(w-1,h-1);
+
+    int xc = center.getX(), yc = center.getY();
 
     for (int i = 0; i < 2*size+1; i++)
     {
         for (int j = 0; j < 2*size+1 ;j++)
         {
-            Img(center.getX()-size+i, center.getY()-size+j).setFilled(true);
+            Img(xc-size+i, yc-size+j).setFilled(true);
         }
     }
 }

@@ -16,8 +16,7 @@ public :
     int getSize() const ;
     void setCenter(Pixel c);
     void setSize(int s);
-    void updateConfidence(ImgPixel Img);        // Met à jour les termes de Confiance sur un patch
-    void set_filled(ImgPixel Img);
+    void set_filled(ImgPixel& Img);
 };
 
 int distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I);  // Calcul la similarité (=distance euclidienne) entre le patch de frontière psi_p et la patch psi_q

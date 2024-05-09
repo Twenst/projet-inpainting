@@ -1,19 +1,6 @@
 #include "utils.h"
-
-int min(int a, int b)
-{
-    return (a>b) ? b : a;
-}
-
-int max(int a, int b)
-{
-    return (a>b) ? a : b;
-}
-
-double absf(double f)
-{
-    return (f > 0) ? f : -f;
-}
+#include <algorithm>
+using namespace std;
 
 bool selectZone(int& x1, int& y1, int& x2, int& y2)
 {
@@ -142,5 +129,19 @@ double computeData(double gradient[2],double normal[2]) // cd code
     double d = gradient[0]*normal[0];
     d += gradient[1]*normal[1];
 
-    return double(absf(d)/alpha);
+    return double(abs(d)/alpha);
+}
+
+void set_filled(ImgPixel Img, Pixel p1, Pixel p2)
+{
+    int x1 = p1.getX(), x2 = p2.getX();
+    int y1 = p1.getY(), y2 = p2.getY();
+
+    for (int i = std::min(x1,x2); i < std::max(x1,x2)+1; i++)
+    {
+        for (int j = std::min(y1,y2); j < std::max(y1,y2)+1 ;j++)
+        {
+            Img(i,j).setFilled(true);
+        }
+    }
 }

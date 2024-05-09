@@ -7,9 +7,11 @@ const int alpha=255;
 class Pixel 
 {
     int x,y;        // position
+public:
     Color col;      // Color
+private:
     double c,d;     // Confidence and Data term
-    bool filled;         // false if not filled yet, true else
+    bool filled;
 
 public:
     Pixel();

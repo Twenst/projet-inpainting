@@ -1,5 +1,5 @@
 #include "Image.h"
-#include <cmath>
+#include <algorithm>
 using namespace std;
 
 void display(ImgPixel Img, int coeff){
@@ -9,7 +9,7 @@ void display(ImgPixel Img, int coeff){
         for(int j=0; j<h; j++){
             if (Img(i,j).getFilled())
                 Img0(i,j)=Img(i,j).getColor();
-            else Img0(i,j) = RED;
+            else Img0(i,j) = WHITE;
         }
     }
 
@@ -37,3 +37,19 @@ bool getImage(ImgPixel& Img,std::string imageLink, int argc, char* argv[]){    /
     return true;
 }
 
+void eraseZone(ImgPixel& Img, Pixel p1, Pixel p2)
+{
+    int x1 = p1.getX(), x2 = p2.getX();
+    int y1 = p1.getY(), y2 = p2.getY();
+
+    noRefreshBegin();                                   //Permettra de gagner du temps de calcul
+    for (int i=std::min(x1,x2)+1;i<std::max(x1,x2);i++){
+        for (int j=std::min(y1,y2)+1;j<std::max(y1,y2);j++){
+            drawPoint(i,j,WHITE);                       //Dessine le pixel en blanc sur l'affichage
+            Img(i,j).setColor(WHITE);                    //Remplace la couleur du pixel par blanc
+            Img(i,j).setFilled(false);                            //Met le pixel sur "non visité"
+            Img(i,j).setConfidence(0);                   //Met la confiance du pixel à 0
+        }
+    }
+    noRefreshEnd();
+}
