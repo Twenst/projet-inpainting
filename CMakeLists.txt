@@ -16,5 +16,7 @@ add_executable(Inpainter main.cpp
     Inpainter.h
     Inpainter.cpp
     utils.h
-    utils.cpp)
+    utils.cpp
+    Loc.h
+    Loc.cpp)
 ImagineUseModules(Inpainter Graphics)

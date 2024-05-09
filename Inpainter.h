@@ -5,7 +5,8 @@
 #include "Front.h"
 #include "utils.h"
 
-
+/* La classe Inpainter permet de réunir les deux éléments centraux de l'algorithme : la frontière et l'image.
+ */
 
 class Inpainter 
 {
@@ -15,5 +16,6 @@ class Inpainter
     int patch_size;
     Inpainter();
     Inpainter(ImgPixel Img, Front fr);
-    void place_patch(Patch psi_q, Pixel p); // copie le patch psi_q sur p, gere tout
+    void place_patch(Patch psi_q, Loc crds_p);      // Copie le patch \psi_q sur les pixels non remplis du patch \psi_p
+                                                    // et affecte aux pixels non remplis du patch \psi_p la valeur de Confidence du pixel p_max
 };

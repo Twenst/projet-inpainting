@@ -1,78 +1,60 @@
 #include "Patch.h"
 #include <queue>
-
 #include <iostream>
 using namespace std;
+
 
 Patch::Patch(){
 }
 
-Patch::Patch(Pixel c,int s){
-    center=c;
+
+Patch::Patch(Loc c,int s){
+    crds_center=c;
     size=s;
 }
 
+
 Patch::Patch(const Patch & ptch)
 {
-    center = ptch.center;
+    crds_center = ptch.crds_center;
     size = ptch.size;
 }
 
-Pixel Patch::getCenter() const{
-    return center;
+
+Loc Patch::getLocCenter() const{
+    return crds_center;
 }
+
 
 int Patch::getSize() const{
     return size;
 }
 
-void Patch::setCenter(Pixel p){
-    center=p;
+
+void Patch::setLocCenter(Loc crds){
+    crds_center=crds;
 }
+
 
 void Patch::setSize(int s){
     size=s;
 }
 
-//void Patch::updateConfidence(ImgPixel& Img){
-//    int x = center.getX();
-//    int y = center.getY();
-//    int n = size;
-//    double c = 0;
-//    for (int i=0;i<2*n+1;i++){
-//        for (int j=0;j<2*n+1;j++){
-//            if (Img(x-n+i,y-n+j).getFilled()){
-//                c += Img(x-n+i,y-n+j).getConfidence();
-//            }
-//        }
-//    }
 
-//    c = double(c/((2*n+1)*(2*n+1)));
-
-//    for (int i=0;i<2*n+1;i++){
-//        for (int j=0;j<2*n+1;j++){
-//            if (!Img(x-n+i,y-n+j).getFilled()){
-//                Img(x-n+i,y-n+j).setConfidence(c);
-//            }
-//        }
-//    }
-//}
-
-
-double distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvoie la distance induite par la norme 2 sur les tampons
+// Calcul la similarité (=distance euclidienne) entre le patch (sur la frontière) psi_p et la patch psi_q
+double distPatch(const Loc& crds_q, const Patch& psi_p, const ImgPixel& I){
     int n = psi_p.getSize();
-    Pixel p = psi_p.getCenter();
-    int x_p = p.getX(), y_p = p.getY();
-    int x_q = q.getX(), y_q = q.getY();
+    Loc crds_p = psi_p.getLocCenter();
+    int x_p = crds_p.getX(), y_p = crds_p.getY();
+    int x_q = crds_q.getX(), y_q = crds_q.getY();
     double dist=0;
 
     for (int k=-n;k<=n;k++){
         for (int l=-n;l<=n;l++){
             if(I(x_p+k,y_p+l).getFilled()){
-                dist+=sqrt( pow((int(I(x_q+k,y_q+l).getColor().r())-int(I(x_p+k,y_p+l).getColor().r())),2)
+                dist+=sqrt(pow((int(I(x_q+k,y_q+l).getColor().r())-int(I(x_p+k,y_p+l).getColor().r())),2)
                              +pow((int(I(x_q+k,y_q+l).getColor().g())-int(I(x_p+k,y_p+l).getColor().g())),2)
-                             +pow((int(I(x_q+k,y_q+l).getColor().b())-int(I(x_p+k,y_p+l).getColor().b())),2)
-                             );
+                             +pow((int(I(x_q+k,y_q+l).getColor().b())-int(I(x_p+k,y_p+l).getColor().b())),2));
             }
         }
     }
@@ -80,78 +62,64 @@ double distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvo
     return dist;
 }
 
+
+// Modifie psi_q tel qu'il soit le patch le plus similaire à psi_p
 double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
     assert(psi_q.getSize() == psi_p.getSize());
     int h = I.height(), w = I.width();
     int n = psi_q.getSize();
     bool filled;
-    std::queue<Pixel> ListQX;
 
+    // On met dans une file les patchs candidats (dans la pratique on ne met que les coordonnées des centres des patchs)
+    // Les patchs candidats étant ceux qui sont entièrement remplis
+    std::queue<Loc> ListCrdsQX;
     for (int i=n;i<w-n-1;i++){
-        for (int j=n; j<h-n-1;j++){      // Les sample potentiels sont ceux de coordonné (i,j). Au dela de ces valeurs, Psy_q n'est plus carré
-            filled = true;                   // Cherchons les q potentiel (ceux dont Psy_q est "plein")
+        for (int j=n; j<h-n-1;j++){
+            filled = true;
 
             for (int k=-n;k<=n;k++){
                 for (int l=-n;l<=n;l++){
                     if(not I(i+k,j+l).getFilled()){
                         filled = false;
-                        break;           //Sortie des boucles
+                        break;
                     }
                 }
                 if (not filled)
                     break;
             }
+
             if (filled){
-                ListQX.push(I(i,j));
+                ListCrdsQX.push(I(i,j).getLoc());
             }
+
         }
     }
 
-    //On a désormait la liste des pixels potentiels, il faut calculer leur distance pour trouver le meilleur matching
-    assert(not ListQX.empty()); // La liste ne doit pas être vide
+    // On calcule maintenant la similarité (=distance euclidienne) entre le patch psi_p (sur la frontière) et les patchs candidats
+    // et on garde celui qui a la plus petite distance
+    assert(not ListCrdsQX.empty());
     double dist;
-    Pixel q;
-    double minDist = distPatch(ListQX.front(),psi_p,I);
-    Pixel Q_min = ListQX.front();
+    Loc crds_q;
 
-    //cout << "Q_min_x = " << Q_min.getX() << " ||   ";
-
-    ListQX.pop();
-
-    int initSize = ListQX.size();
-    for(int m=0;m<initSize;m++){ //Tant que la liste n'est pas vide
-        q = ListQX.front();
-        ListQX.pop();
-
-        dist = distPatch(q,psi_p,I);
+    double minDist = distPatch(ListCrdsQX.front(),psi_p,I);
+    Loc crds_Q_min = ListCrdsQX.front();
+    ListCrdsQX.pop();
+    int initSize = ListCrdsQX.size();
+    for(int m=0;m<initSize;m++){
+        crds_q = ListCrdsQX.front();
+        ListCrdsQX.pop();
+        dist = distPatch(crds_q,psi_p,I);
 
         if (dist<=minDist){
-            Q_min = q;
+            crds_Q_min = crds_q;
             minDist = dist;
-            if(dist==0){    //cas matching optimal
-                std::cout<<"Perfect match!"<<std::endl;
-                psi_q.setCenter(Q_min);
+            if(dist==0){                            // On arrête la recherche si la distance est 0 (on ne trouvera théoriquement pas mieux)
+                psi_q.setLocCenter(crds_Q_min);     // On modifie donc psi_q en conséquence
                 return 0;
             }
         }
     }
-    psi_q.setCenter(Q_min);
-    //cout << "Q_min_x = " << Q_min.getX() << " ||   ";
+
+    psi_q.setLocCenter(crds_Q_min);
     return minDist;
-}
-
-void Patch::set_filled(ImgPixel& Img)
-{
-    //int w = Img.width(), h = Img.height();
-    //Pixel x0(0,0); Pixel xf(w-1,h-1);
-
-    int xc = center.getX(), yc = center.getY();
-
-    for (int i = 0; i < 2*size+1; i++)
-    {
-        for (int j = 0; j < 2*size+1 ;j++)
-        {
-            Img(xc-size+i, yc-size+j).setFilled(true);
-        }
-    }
 }
