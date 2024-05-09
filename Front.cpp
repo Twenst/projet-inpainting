@@ -170,7 +170,7 @@ Pixel Front::pixelMaxPriority(const ImgPixel& Img) // on peut pas mettre cette f
             p_max = *i;
         }
     }
-    return p_max;
+    return Img(p_max.getX(),p_max.getY());
 } 
 
 void Front::updateData(ImgPixel& Img)

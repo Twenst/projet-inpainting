@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 {
     int zoom=1;
     ImgPixel Img;
-    getImage(Img,srcPath("pictures/basic.png"),argc,argv);
+    getImage(Img,srcPath("pictures/bahamas.png"),argc,argv);
     openWindow(Img.width()*zoom, Img.height()*zoom);;
     display(Img,zoom);
 
@@ -60,11 +60,11 @@ void algo(Inpainter Inpt)
 
         // Trouver le patch \psi_q tq il est le patch le plus proche de \psi_p
         Patch psi_q(Inpt.image(0,0),n);
-        int dist = argMinDistPatch(psi_q,psi_p,Inpt.image);
+        double dist = argMinDistPatch(psi_q,psi_p,Inpt.image);
         drawRect(psi_q.getCenter().getX()-n,psi_q.getCenter().getY()-n,2*n+1,n*2+1,RED);
-        anyClick();
+        //anyClick();
 
-        //cout << "DISTANCE_q = " << dist << " ||   ";
+        cout << "DISTANCE_q = " << dist << " ||   ";
         //break;
 
         // Placer le patch \psi_q en p

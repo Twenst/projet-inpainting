@@ -9,7 +9,7 @@ Inpainter::Inpainter(){
 Inpainter::Inpainter(ImgPixel Img, Front fr){
     image=Img;
     frontier=fr;
-    patch_size = 15; // cela fait un patch effective de 9x9
+    patch_size = 4; // cela fait un patch effective de 9x9
 }
 
 void Inpainter::place_patch(Patch psi_q, Pixel p)
@@ -21,7 +21,7 @@ void Inpainter::place_patch(Patch psi_q, Pixel p)
     int n = psi_q.getSize();
     int q_size = 2*n+1;
 
-    cout << psi_q.getCenter().getX();
+    //cout << psi_q.getCenter().getX();
 
     for (int i = 0; i < q_size; i++)
     {

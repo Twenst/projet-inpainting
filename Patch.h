@@ -19,5 +19,5 @@ public :
     void set_filled(ImgPixel& Img);
 };
 
-int distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I);  // Calcul la similarité (=distance euclidienne) entre le patch de frontière psi_p et la patch psi_q
-int argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I);  // Modifie psi_q tel qu'il soit le patch le plus similaire à psi_p
+double distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I);  // Calcul la similarité (=distance euclidienne) entre le patch de frontière psi_p et la patch psi_q
+double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I);  // Modifie psi_q tel qu'il soit le patch le plus similaire à psi_p

@@ -59,12 +59,12 @@ void Patch::setSize(int s){
 //}
 
 
-int distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvoie la distance induite par la norme 2 sur les tampons
+double distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvoie la distance induite par la norme 2 sur les tampons
     int n = psi_p.getSize();
     Pixel p = psi_p.getCenter();
     int x_p = p.getX(), y_p = p.getY();
     int x_q = q.getX(), y_q = q.getY();
-    int dist=0;
+    double dist=0;
 
     for (int k=-n;k<=n;k++){
         for (int l=-n;l<=n;l++){
@@ -80,7 +80,7 @@ int distPatch(const Pixel& q, const Patch& psi_p, const ImgPixel& I){ //renvoie 
     return dist;
 }
 
-int argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
+double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
     assert(psi_q.getSize() == psi_p.getSize());
     int h = I.height(), w = I.width();
     int n = psi_q.getSize();
@@ -109,9 +109,9 @@ int argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
 
     //On a désormait la liste des pixels potentiels, il faut calculer leur distance pour trouver le meilleur matching
     assert(not ListQX.empty()); // La liste ne doit pas être vide
-    int dist;
+    double dist;
     Pixel q;
-    int minDist = distPatch(ListQX.front(),psi_p,I);
+    double minDist = distPatch(ListQX.front(),psi_p,I);
     Pixel Q_min = ListQX.front();
 
     //cout << "Q_min_x = " << Q_min.getX() << " ||   ";
