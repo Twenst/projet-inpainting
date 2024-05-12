@@ -43,6 +43,7 @@ void Patch::setSize(int s){
 
 // Calcul la similarité (=distance euclidienne) entre le patch (sur la frontière) psi_p et la patch psi_q
 double distPatch(const Loc& crds_q, const Patch& psi_p, const ImgPixel& I){
+    int h = I.height(), w = I.width();
     int n = psi_p.getSize();
     Loc crds_p = psi_p.getLocCenter();
     int x_p = crds_p.getX(), y_p = crds_p.getY();
@@ -51,7 +52,8 @@ double distPatch(const Loc& crds_q, const Patch& psi_p, const ImgPixel& I){
 
     for (int k=-n;k<=n;k++){
         for (int l=-n;l<=n;l++){
-            if(I(x_p+k,y_p+l).getFilled()){
+
+            if((0<=x_p+k && x_p+k<=w-1 && 0<=y_p+l && y_p+l<=h-1) && I(x_p+k,y_p+l).getFilled()){
                 dist+=sqrt(pow((int(I(x_q+k,y_q+l).getColor().r())-int(I(x_p+k,y_p+l).getColor().r())),2)
                              +pow((int(I(x_q+k,y_q+l).getColor().g())-int(I(x_p+k,y_p+l).getColor().g())),2)
                              +pow((int(I(x_q+k,y_q+l).getColor().b())-int(I(x_p+k,y_p+l).getColor().b())),2));
@@ -79,7 +81,7 @@ double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
 
             for (int k=-n;k<=n;k++){
                 for (int l=-n;l<=n;l++){
-                    if(not I(i+k,j+l).getFilled()){
+                    if((0<=i+k && i+k<=w-1 && 0<=j+l && j+l<=h-1) && !I(i+k,j+l).getFilled()){
                         filled = false;
                         break;
                     }

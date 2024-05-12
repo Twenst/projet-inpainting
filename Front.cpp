@@ -6,15 +6,15 @@ using namespace std;
 // Les pixels de la frontiere sont REMPLIS ie. getFilled est vrai, sinon c'est l'intérieur de la frontiere
 
 
-
+// Teste si le pixel de coordonnées crds_p a au moins un voisin qui n'est pas rempli
 bool has_unfilled_neighbor(const ImgPixel& Img, Loc crds_p)
 {
     int w = Img.width(), h = Img.height();
     int x = crds_p.getX(), y = crds_p.getY();
 
-    if (x < w and not Img(x+1,y).getFilled())
+    if (x < w-1 and not Img(x+1,y).getFilled())
         return true;
-    if (y < h and not Img(x,y+1).getFilled())
+    if (y < h-1 and not Img(x,y+1).getFilled())
         return true;
     if (y > 0 and not Img(x,y-1).getFilled())
         return true;
@@ -25,6 +25,7 @@ bool has_unfilled_neighbor(const ImgPixel& Img, Loc crds_p)
 }
 
 
+// Teste si p est dans le rectangle défini par c1 et c2
 bool is_within_square(Loc crds_p, Loc crds_c1, Loc crds_c2) // si p est dans le rectangle défini par c1 et c2
 {
     int x = crds_p.getX(), y = crds_p.getY();
@@ -73,6 +74,7 @@ void Front::defineFront(ImgPixel& Img, Loc crds_p1, Loc crds_p2)
 // Met à jour la frontière apres avoir appliqué le patch p
 void Front::updateFront(const ImgPixel& Img, Patch p)
 {
+    int w = Img.width(), h = Img.height();
     Loc crds_centre = p.getLocCenter(); int n = p.getSize();
     int x = crds_centre.getX(), y = crds_centre.getY();
     Loc crds_p1(x-n,y-n); Loc crds_p2(x+n,y+n);
@@ -92,7 +94,9 @@ void Front::updateFront(const ImgPixel& Img, Patch p)
     // On maj la nouvelle bordure de la frontiere au niveau du patch en regardant si les pixels du bord du patch ont un voisin non rempli
     for (list<Loc>::iterator i = l_patch.begin(); i != l_patch.end(); ++i)
     {
-        if (has_unfilled_neighbor(Img, *i))
+        int x_patch = (*i).getX();
+        int y_patch = (*i).getY();
+        if ((0<=x_patch && x_patch<=w-1 && 0<=y_patch && y_patch<=h-1) && has_unfilled_neighbor(Img, *i))
         {
             coords.push_back(*i);
         }
@@ -158,7 +162,8 @@ void Front::updateConfidence(ImgPixel& Img, int n){
         double c = 0;
         for (int i=0;i<2*n+1;i++){
             for (int j=0;j<2*n+1;j++){
-                if (0<=x-n+i<=w && 0<=y-n+j<=h){
+                if (0<=x-n+i && x-n+i<=w-1 && 0<=y-n+j && y-n+j<=h-1){
+                    assert((0<=x-n+i && x-n+i<=w-1 && 0<=y-n+j && y-n+j<=h-1));
                     if (Img(x-n+i,y-n+j).getFilled()){
                         c += Img(x-n+i,y-n+j).getConfidence();              // ...la somme des valeurs de Confidence des pixels REMPLIS constituant le patch de centre 'p' de taille n...
                     }
@@ -167,6 +172,7 @@ void Front::updateConfidence(ImgPixel& Img, int n){
         }
 
         c = double(c/((2*n+1)*(2*n+1)));                                    //... divisée par la surface du patch.
+        assert((0<=x && x<=w-1 && 0<=y && y<=h-1));
         Img(x,y).setConfidence(c);                                          // màj du terme de Confidence du pixel 'p'
     }
 }
@@ -184,7 +190,7 @@ void Front::display()
 {
     for (list<Loc>::iterator i = coords.begin(); i != coords.end(); ++i)
     {
-        drawPoint(i->getX(), i->getY(), BLACK);
+        drawPoint(i->getX(), i->getY(), GREEN);
     }
 }
 
@@ -195,17 +201,27 @@ void update_list(const ImgPixel& Img, std::list<Loc>& l, int x1, int y1, int x2,
     // Ajouter les points entre (x1,y1) et (x2,y1), entre (x2,y1) et (x2,y2), 
     // entre (x2,y2) et (x1,y2) et entre (x1,y2) et (x1,y1).
 
+    int w = Img.width(), h = Img.height();
+
     // Ajoute les bords
     for (int i = std::min(x1,x2); i <= std::max(x1,x2); i++) // y1 et y2
     {
-        l.push_front(Img(i,y1).getLoc());
-        l.push_front(Img(i,y2).getLoc());
+        if (0<=i && i<=w-1 && 0<=y1 && y1<=h-1){
+            l.push_front(Img(i,y1).getLoc());
+        }
+        if (0<=i && i<=w-1 && 0<=y2 && y2<=h-1){
+            l.push_front(Img(i,y2).getLoc());
+        }
     }
     for (int j = std::min(y1,y2)+1; j < std::max(y1,y2); j++) // x1 et x2
     // ici on ne met pas les coins afin qu'ils ne soient pas en double
     {
-        l.push_front(Img(x1,j).getLoc());
-        l.push_front(Img(x2,j).getLoc());
+        if (0<=x1 && x1<=w-1 && 0<=j && j<=h-1){
+            l.push_front(Img(x1,j).getLoc());
+        }
+        if (0<=x2 && x2<=w-1 && 0<=j && j<=h-1){
+            l.push_front(Img(x2,j).getLoc());
+        }
     }
 }
 

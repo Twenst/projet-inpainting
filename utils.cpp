@@ -58,7 +58,7 @@ void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, L
         gradient[0]=double(ImgB(x,y)-ImgB(x-1,y))/2;
     }
 
-    if ( y==0 || y==h-1){
+    if (y==0||y==h-1){
     }
 
     else if (Img(x,y+1).getFilled()){

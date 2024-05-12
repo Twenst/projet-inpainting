@@ -7,10 +7,10 @@ Inpainter::Inpainter(){
 }
 
 
-Inpainter::Inpainter(ImgPixel Img, Front fr){
+Inpainter::Inpainter(ImgPixel Img, Front fr, int ps){
     image=Img;
     frontier=fr;
-    patch_size = 4; // cela fait un patch effective de 9x9
+    patch_size = ps; // cela fait un patch effective de 9x9
 }
 
 
@@ -32,16 +32,15 @@ void Inpainter::place_patch(Patch psi_q, Loc crds_p)
         {
             int a = x-n+i, b = y-n+j;
             int c = psi_q.getLocCenter().getX()-n+i, d = psi_q.getLocCenter().getY()-n+j;
-            if (0<=a && a<=w && 0<=b && b<=h && 0<=c && c<=w && 0<=d && d<=h)
+            if (0<=a && a<=w-1 && 0<=b && b<=h-1 && 0<=c && c<=w-1 && 0<=d && d<=h-1)
             {
+                assert((0<=a && a<=w-1 && 0<=b && b<=h-1 && 0<=c && c<=w-1 && 0<=d && d<=h-1));
                 if (not image(a,b).getFilled())
                 {
                     image(a,b).setColor(image(c,d).getColor());
                     image(a,b).setConfidence(image(x,y).getConfidence());
                     image(a,b).setFilled(image(c,d).getFilled());
                 }
-            } else {
-                cout << "there is an issue! ";
             }
         }
     }

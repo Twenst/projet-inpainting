@@ -15,7 +15,7 @@ class Inpainter
     Front frontier;
     int patch_size;
     Inpainter();
-    Inpainter(ImgPixel Img, Front fr);
+    Inpainter(ImgPixel Img, Front fr, int ps);
     void place_patch(Patch psi_q, Loc crds_p);      // Copie le patch \psi_q sur les pixels non remplis du patch \psi_p
                                                     // et affecte aux pixels non remplis du patch \psi_p la valeur de Confidence du pixel p_max
 };

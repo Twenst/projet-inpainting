@@ -12,21 +12,23 @@
 using namespace std;
 
 
-void algo(Inpainter Inpt);
+const int zoom = 1;                                                         // A NE PAS MODIFIER. zoom = 1
+const int patch_size = 4;                                                   // La taille d'un patch est 9x9
 
-const int zoom = 1;
+
+void algo(Inpainter Inpt);
 
 
 int main(int argc, char* argv[])
 {
     ImgPixel Img;
-    getImage(Img,srcPath("pictures/basic.png"),argc,argv);
+    getImage(Img,srcPath("pictures/dog.png"),argc,argv);
     openWindow(Img.width()*zoom, Img.height()*zoom);;
     display(Img,zoom);
 
     std::list<Loc> coords;
     Front fr(coords);
-    Inpainter Inpt(Img,fr);
+    Inpainter Inpt(Img,fr,patch_size);
     algo(Inpt);
 
     return 0;
@@ -51,6 +53,7 @@ void algo(Inpainter Inpt)
     Inpt.frontier.updateConfidence(Inpt.image, n);                          // Calcul des termes de Confidence sur la frontière
     Inpt.frontier.display();                                                // Affichage de la frontière
 
+
     // Boucle principale
     while(not Inpt.frontier.isEmpty())
     {
@@ -59,7 +62,7 @@ void algo(Inpainter Inpt)
         Loc crds_p_max = Inpt.frontier.coordsMaxPriority(Inpt.image);
         Patch psi_p(crds_p_max, n);                                         // \psi_p est le patch de centre p_max
             //drawCircle(crds_p_max.getX(),crds_p_max.getY(),3,PURPLE);
-
+            drawRect(psi_p.getLocCenter().getX()-n,psi_p.getLocCenter().getY()-n,2*n+1,n*2+1,PURPLE);
 
         // 2) Trouver le patch \psi_q tel qu il est le patch le plus proche de \psi_p
         Patch psi_q(Loc(0,0),n);
