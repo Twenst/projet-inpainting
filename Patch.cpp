@@ -96,6 +96,7 @@ double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
 
         }
     }
+    
 
     // On calcule maintenant la similarité (=distance euclidienne) entre le patch psi_p (sur la frontière) et les patchs candidats
     // et on garde celui qui a la plus petite distance
@@ -115,10 +116,10 @@ double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
         if (dist<=minDist){
             crds_Q_min = crds_q;
             minDist = dist;
-            if(dist==0){                            // On arrête la recherche si la distance est 0 (on ne trouvera théoriquement pas mieux)
-                psi_q.setLocCenter(crds_Q_min);     // On modifie donc psi_q en conséquence
-                return 0;
-            }
+            //if(dist==0){                            // On arrête la recherche si la distance est 0 (on ne trouvera théoriquement pas mieux)
+            //    psi_q.setLocCenter(crds_Q_min);     // On modifie donc psi_q en conséquence
+            //    return 0;
+            //}
         }
     }
 
