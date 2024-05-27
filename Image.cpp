@@ -53,7 +53,7 @@ void eraseZone(ImgPixel& Img, Loc crds1, Loc crds2)
     noRefreshBegin();
     for (int i=std::min(x1,x2)+1;i<std::max(x1,x2);i++){
         for (int j=std::min(y1,y2)+1;j<std::max(y1,y2);j++){
-            drawPoint(i,j,WHITE);
+            drawPoint(i,j,GREEN);
             Img(i,j).setColor(WHITE);
             Img(i,j).setFilled(false);
             Img(i,j).setConfidence(0);

@@ -22,7 +22,7 @@ void algo(Inpainter Inpt);
 int main(int argc, char* argv[])
 {
     ImgPixel Img;
-    getImage(Img,srcPath("pictures/dog.png"),argc,argv);
+    getImage(Img,srcPath("pictures/basic.png"),argc,argv);
     openWindow(Img.width()*zoom, Img.height()*zoom);;
     display(Img,zoom);
 
