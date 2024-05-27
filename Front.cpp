@@ -52,18 +52,21 @@ void Front::defineFront(ImgPixel& Img, Loc crds_p1, Loc crds_p2)
 
     // Ajoute à la frontière les coordonnées des pixels de l_front s'ils sont remplis
     for (list<Loc>::iterator i = l_front.begin(); i != l_front.end(); ++i)
-        if (Img((*i).getX(),(*i).getY()).getFilled())
+        if (Img(i->getX(),i->getY()).getFilled())
             coords.push_back(*i);
 
     // Supprime (met les pixels en couleur BLANC et en "non remplis") sur la zone délimitée par crds_p1 et crds_p2
     eraseZone(Img, crds_p1, crds_p2);
 
     // Retire de la frontière les coordonnées des pixels qui ne sont PAS remplis
-    for (list<Loc>::iterator it = coords.begin(); it != coords.end();){
-        if(!Img((*it).getX(),(*it).getY()).getFilled()){
+    for (list<Loc>::iterator it = coords.begin(); it != coords.end();)
+    {
+        if(!Img(it->getX(),it->getY()).getFilled())
+        {
             it = coords.erase(it);
         }
-        else{
+        else
+        {
             ++it;
         }
     }
@@ -155,7 +158,7 @@ void Front::updateData(ImgPixel& Img)
 void Front::updateConfidence(ImgPixel& Img, int n){
     int w = Img.width(), h = Img.height();
 
-    for (list<Loc>::iterator i = coords.begin(); i != coords.end(); ++i)    // Pour CHAQUE pixel 'p' de la frontière, ont fait...
+    for (list<Loc>::iterator i = coords.begin(); i != coords.end(); ++i)    // Pour CHAQUE pixel 'p' de la frontière, on fait...
     {
         int x = (*i).getX();
         int y = (*i).getY();

@@ -13,7 +13,7 @@ using namespace std;
 
 
 const int zoom = 1;                                                         // A NE PAS MODIFIER. zoom = 1
-const int patch_size = 15;                                                   // La taille d'un patch est 9x9
+const int patch_size = 4;                                                   // La taille d'un patch est 9x9
 
 
 void algo(Inpainter Inpt);
