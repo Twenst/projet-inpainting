@@ -9,11 +9,14 @@
 #include "Pixel.h"
 #include "Patch.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 
 const int zoom = 1;                                                         // A NE PAS MODIFIER. zoom = 1
 const int patch_size = 4;                                                   // La taille d'un patch est 9x9
+const string imageName = "basic";                                           // Nom du fichier
+const string imageExtension = ".png";                                       // Extension du fichier
 
 
 void algo(Inpainter Inpt);
@@ -22,7 +25,7 @@ void algo(Inpainter Inpt);
 int main(int argc, char* argv[])
 {
     ImgPixel Img;
-    getImage(Img,srcPath("pictures/basic.png"),argc,argv);
+    getImage(Img,srcPath("pictures/"+imageName+imageExtension),argc,argv);
     openWindow(Img.width()*zoom, Img.height()*zoom);;
     display(Img,zoom);
 
@@ -37,6 +40,8 @@ int main(int argc, char* argv[])
 
 void algo(Inpainter Inpt)
 {
+    initRandom();
+
     // Sélection de la zone à retoucher
     int x1, x2, y1, y2;
     bool notSelected = selectZone(x1, y1, x2, y2);                          // La sélection de zone est en forme de (plusieurs) rectangles
@@ -55,8 +60,11 @@ void algo(Inpainter Inpt)
 
 
     // Boucle principale
+    int iter = 0;
     while(not Inpt.frontier.isEmpty())
     {
+
+        iter += 1;
 
         // 1) Trouver les coordonnées du pixel de la frontière de priorité maximale
         Loc crds_p_max = Inpt.frontier.coordsMaxPriority(Inpt.image);
@@ -67,7 +75,7 @@ void algo(Inpainter Inpt)
         // 2) Trouver le patch \psi_q tel qu il est le patch le plus proche de \psi_p
         Patch psi_q(Loc(0,0),n);
         double dist = argMinDistPatch(psi_q,psi_p,Inpt.image);
-            //drawRect(psi_q.getLocCenter().getX()-n,psi_q.getLocCenter().getY()-n,2*n+1,n*2+1,RED);
+            drawRect(psi_q.getLocCenter().getX()-n,psi_q.getLocCenter().getY()-n,2*n+1,n*2+1,RED);
             //anyClick();
 
 
@@ -88,6 +96,9 @@ void algo(Inpainter Inpt)
         // Affiche l'image et la frontière
         display(Inpt.image,zoom);
         Inpt.frontier.display();
+
+        // Sauvegarde l'image
+        // saveImage(Inpt.image, imageName, iter, 1);
     }
     endGraphics();
 }

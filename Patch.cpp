@@ -108,6 +108,7 @@ double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
     Loc crds_Q_min = ListCrdsQX.front();
     ListCrdsQX.pop();
     int initSize = ListCrdsQX.size();
+    std::vector<Loc> ListBestCrdsQX;
     for(int m=0;m<initSize;m++){
         crds_q = ListCrdsQX.front();
         ListCrdsQX.pop();
@@ -116,11 +117,20 @@ double argMinDistPatch(Patch& psi_q, const Patch& psi_p, const ImgPixel& I){
         if (dist<=minDist){
             crds_Q_min = crds_q;
             minDist = dist;
-            //if(dist==0){                            // On arrête la recherche si la distance est 0 (on ne trouvera théoriquement pas mieux)
-            //    psi_q.setLocCenter(crds_Q_min);     // On modifie donc psi_q en conséquence
-            //    return 0;
-            //}
+            if(dist==0){                            // On arrête la recherche si la distance est 0 (on ne trouvera théoriquement pas mieux)
+                //psi_q.setLocCenter(crds_Q_min);     // On modifie donc psi_q en conséquence
+                ListBestCrdsQX.push_back(crds_Q_min);
+                //return 0;
+            }
         }
+    }
+
+    int initBestSize = ListBestCrdsQX.size();
+    if (initBestSize > 0){
+        // int rdInd = initBestSize-1;
+        int rdInd = intRandom(0, initBestSize-1);
+        crds_Q_min = ListBestCrdsQX.at(rdInd);
+        cout << "Perfect match " << "rdInd : " << rdInd << " ; size : " << initBestSize << endl;
     }
 
     psi_q.setLocCenter(crds_Q_min);

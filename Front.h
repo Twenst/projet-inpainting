@@ -18,7 +18,7 @@ public:
     Front(std::list<Loc> crds);
     void defineFront(ImgPixel& Img, Loc crds_p1, Loc crds_p2);              // Permet d'initaliser la frontière à partir de (plusieurs) rectangles définis par les points crds_p1 et crds_p2
     void updateFront(const ImgPixel& Img, Patch p);                         // Met à jour la frontière apres avoir appliqué le patch p
-    void clearSides(const ImgPixel& Img);                                   // Retire la bordure de l'image de la frontière
+    void clearSides(ImgPixel &Img);                                         // Retire la bordure de l'image de la frontière
     Loc coordsMaxPriority(const ImgPixel &Img) ;                            // Parcourt la frontière pour connaître les coordonnées du pixel de priorité maximale
     void updateData(ImgPixel& Img);                                         // Met à jour le terme Data des pixels de la frontière
     void updateConfidence(ImgPixel& Img, int n);                            // Met à jour le terme Confidence des pixels de la frontière

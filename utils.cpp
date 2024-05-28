@@ -37,10 +37,10 @@ void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, L
     if (x==0||x==w-1){
     }
 
-    else if (Img(x+1,y).getFilled()){
-        if (Img(x-1,y).getFilled()){
+    else if (0<=x+1 && x+1<=w-1 && 0<=y && y<=h-1 && Img(x+1,y).getFilled()){
+        if (0<=x-1 && x-1<=w-1 && 0<=y && y<=h-1 && Img(x-1,y).getFilled()){
             gradient[0]=double(ImgB(x+1,y)-ImgB(x-1,y))/2;
-            if (Img(x,y+1).getFilled()){
+            if (0<=x && x<=w-1 && 0<=y+1 && y+1<=h-1 && Img(x,y+1).getFilled()){
                 normal[0]=0;
                 normal[1]=-1;
             }
@@ -50,21 +50,23 @@ void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, L
             }
         }
         else {
+            assert(0<=x+1 && x+1<=w-1 && 0<=y && y<=h-1 && 0<=x && x<=w-1);
             gradient[0]=double(ImgB(x+1,y)-ImgB(x,y))/2;
         }
     }
 
-    else if (Img(x-1,y).getFilled()){
+
+    else if (0<=x-1 && x-1<=w-1 && 0<=y && y<=h-1 && Img(x-1,y).getFilled()){
         gradient[0]=double(ImgB(x,y)-ImgB(x-1,y))/2;
     }
 
     if (y==0||y==h-1){
     }
 
-    else if (Img(x,y+1).getFilled()){
-        if (Img(x,y-1).getFilled()){
+    else if (0<=x && x<=w-1 && 0<=y+1 && y+1<=h-1 && Img(x,y+1).getFilled()){
+        if (0<=x && x<=w-1 && 0<=y-1 && y-1<=h-1 && Img(x,y-1).getFilled()){
             gradient[1]=double(ImgB(x,y+1)-ImgB(x,y-1))/2;
-            if (Img(x+1,y).getFilled()){
+            if (0<=x+1 && x+1<=w-1 && 0<=y && y<=h-1 && Img(x+1,y).getFilled()){
                 normal[0]=-1;
                 normal[1]=0;
             }
@@ -74,11 +76,12 @@ void computeGradientNormal(double gradient[2], double normal[2], ImgPixel Img, L
             }
         }
         else {
+            assert(0<=x && x<=w-1 && 0<=y+1 && y+1<=h-1 && 0<=y && y<=h-1);
             gradient[1]=double(ImgB(x,y+1)-ImgB(x,y))/2;
         }
     }
 
-    else if (Img(x,y-1).getFilled()){
+    else if (0<=x && x<=w-1 && 0<=y && y<=h-1 && 0<=y-1 && y-1<=h-1 && Img(x,y-1).getFilled()){
         gradient[1]=double(ImgB(x,y)-ImgB(x,y-1))/2;
     }
 }

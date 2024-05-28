@@ -1,5 +1,6 @@
 #include "Image.h"
 #include <algorithm>
+#include <string>
 using namespace std;
 
 
@@ -16,6 +17,23 @@ void display(ImgPixel Img, int coeff){
     }
 
     Imagine::display(Img0,0,0,false,coeff);
+}
+
+
+// Sauvegarde l'image (les pixels non connus sont affichés en blanc)
+void saveImage(ImgPixel Img, string imageName, int iter, int nb_iter){
+    if (iter%nb_iter == 0){
+        int w=Img.width(), h=Img.height();
+        Imagine::Image<Color> Img0(w,h);
+        for (int i=0;i<w;i++){
+            for(int j=0; j<h; j++){
+                if (Img(i,j).getFilled())
+                    Img0(i,j)=Img(i,j).getColor();
+                else Img0(i,j) = WHITE;
+            }
+        }
+        Imagine::save(Img0,"out_"+imageName+"_"+std::to_string(iter)+".png");
+    }
 }
 
 
@@ -60,4 +78,14 @@ void eraseZone(ImgPixel& Img, Loc crds1, Loc crds2)
         }
     }
     noRefreshEnd();
+}
+
+
+// Supprime (met le pixel en couleur BLANC et en "non rempli") le pixel de coordonnées crds
+void erasePixel(ImgPixel& Img, Loc crds){
+    int x = crds.getX(), y = crds.getY();
+    drawPoint(x,y,GREEN);
+    Img(x,y).setColor(WHITE);
+    Img(x,y).setFilled(false);
+    Img(x,y).setConfidence(0);
 }

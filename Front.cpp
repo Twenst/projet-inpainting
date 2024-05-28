@@ -108,18 +108,21 @@ void Front::updateFront(const ImgPixel& Img, Patch p)
 
 
 // Retire la bordure de l'image de la frontière
-void Front::clearSides(const ImgPixel& Img) //enleve les pixels de la frontiere qui sont sur le bord de l'image
+void Front::clearSides(ImgPixel& Img) //enleve les pixels de la frontiere qui sont sur le bord de l'image
 {
     int w = Img.width(), h = Img.height();
 
+    noRefreshBegin();
     for (list<Loc>::iterator i = coords.begin(); i != coords.end(); ++i)
     {
         int x = i->getX(), y = i->getY();
         if (x == 0 or y == 0 or x >= w-1 or y >= h-1)
         {
+            erasePixel(Img, *i);
             coords.remove(*i);
         }
     }
+    noRefreshEnd();
 }
 
 
@@ -148,6 +151,8 @@ void Front::updateData(ImgPixel& Img)
 
     for (list<Loc>::iterator i = coords.begin(); i != coords.end(); ++i)
     {
+        int a = (*i).getX(), b = (*i).getY();
+        assert(0<=a && a<=w-1 && 0<=b && b<=h-1);
         computeGradientNormal(grad,normal,Img,*i,Ibyte);
         Img(i->getX(),i->getY()).setData(computeData(grad, normal));
     }
